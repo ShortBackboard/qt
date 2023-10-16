@@ -6,16 +6,14 @@ ApplicationWindow {
     height: 600
     visible: true;
 
-    ListView {
-        width: 100
-        height: 100
-        model: myModel
-        delegate: Rectangle {
-            height: 25
-            width: 100
-            Text {
-                text: modelData
-            }
+    Text {
+        anchors.centerIn: parent
+
+        text: msg.author
+
+        Component.onCompleted:
+        {
+            msg.author = "Tom"
         }
     }
 }

@@ -24,6 +24,7 @@ target_link_libraries(appqt PRIVATE ${X11_LIBRARIES})
 target_sources(appqt
     PRIVATE
         main.cpp
+        message.h
         
     PUBLIC
         
