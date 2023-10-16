@@ -1,19 +1,19 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Window
 
-ApplicationWindow {
-    width: 840
-    height: 600
-    visible: true;
+Window {
+    id:window
+    width: 300
+    height: 300
+    visible: true
 
-    Text {
-        anchors.centerIn: parent
+    // Qml信号
+    signal qmlSignal(msg : string)
 
-        text: msg.author
-
-        Component.onCompleted:
-        {
-            msg.author = "Tom"
-        }
+    // 点击事件
+    TapHandler
+    {
+        onTapped: window.qmlSignal("Qml发送信号")
     }
 }
