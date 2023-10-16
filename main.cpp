@@ -1,5 +1,9 @@
 /*
- * 连接Qml信号和Cpp槽函数
+ * 使用对象作为参数在Qml信号和Cpp槽函数之间传递
+ *
+ * 当某个 QML 对象类型作为一个信号参数使用时
+   该参数可以使用 var作为类型，在 C++ 端，这个值将会使用 QVariant 类型被接收;
+   该参数还可以以 QtObject 作为类型，在 C++ 端，这个值将会使用 QObject类型被接收
 */
 
 #include <QGuiApplication>
@@ -32,8 +36,8 @@ int main(int argc, char *argv[])
     Message myClass;
 
     // 连接Qml信号和Cpp槽
-    QObject::connect(window, SIGNAL(qmlSignal(QString)),
-                     &myClass, SLOT(cppSlot(QString)));
+    QObject::connect(object, SIGNAL(qmlSignal(QObject *)),
+                     &myClass, SLOT(cppSlot(QObject *)));
 
     window->show();
 

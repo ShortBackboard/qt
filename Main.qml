@@ -9,11 +9,12 @@ Window {
     visible: true
 
     // Qml信号
-    signal qmlSignal(msg : string)
+    signal qmlSignal(obj : QtObject)
 
     // 点击事件
+    // 把window对象作为参数进行传递
     TapHandler
     {
-        onTapped: window.qmlSignal("Qml发送信号")
+        onTapped: window.qmlSignal(window)
     }
 }
