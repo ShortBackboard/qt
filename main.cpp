@@ -1,14 +1,9 @@
 /*
- * 导入JS资源使用
+ * 别名的简单使用
 */
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QObject>
-#include <QString>
-#include <QQuickWindow>
-
 
 
 int main(int argc, char *argv[])
