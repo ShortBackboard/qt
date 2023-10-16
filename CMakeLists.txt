@@ -24,7 +24,6 @@ target_link_libraries(appqt PRIVATE ${X11_LIBRARIES})
 target_sources(appqt
     PRIVATE
         main.cpp
-        message.h
         
     PUBLIC
         
@@ -35,6 +34,7 @@ qt_add_qml_module(appqt
     VERSION 1.0
     QML_FILES 
         Main.qml
+        add.js
 )
 
 target_compile_features(appqt PRIVATE cxx_std_20)

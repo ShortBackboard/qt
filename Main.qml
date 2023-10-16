@@ -1,20 +1,16 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
+import "add.js" as Add
 
-Window {
-    id:window
-    width: 300
-    height: 300
+ApplicationWindow
+{
+    width: 500
+    height: 500
     visible: true
 
-    // Qml信号
-    signal qmlSignal(obj : QtObject)
-
-    // 点击事件
-    // 把window对象作为参数进行传递
-    TapHandler
-    {
-        onTapped: window.qmlSignal(window)
+    Text {
+        text: ("1 + 1 = ") + Add.add(1, 1)
     }
+
 }
