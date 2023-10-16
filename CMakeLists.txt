@@ -2,15 +2,29 @@ cmake_minimum_required(VERSION 3.26)
 
 project(qt VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOUIC ON)
+
+
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(X11 REQUIRED)
 
 qt_standard_project_setup()
 
 qt_add_executable(appqt)
 
+find_package(Qt6 REQUIRED COMPONENTS Quick)
+include_directories(${X11_INCLUDE_DIR})
+link_directories(${X11_LIB_DIR})
+target_link_libraries(appqt PRIVATE Qt6::Quick)
+target_link_libraries(appqt PRIVATE ${X11_LIBRARIES})
+
 target_sources(appqt
     PRIVATE
         main.cpp
+        myDatetime.h
         
     PUBLIC
         
@@ -37,7 +51,10 @@ set_target_properties(appqt PROPERTIES
 target_link_libraries(appqt
     PRIVATE 
         Qt6::Quick
-)
+        Qt6::Widgets
+        ${X11_LIBRARIES}
+        )
+
 
 install(TARGETS appqt
     BUNDLE DESTINATION .
