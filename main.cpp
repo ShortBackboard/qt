@@ -1,11 +1,12 @@
 /*
- * 注册C++自定义对象和qml集成，获得当前时间功能
+ * 在QML视图中使用基于C++的数据模型
 */
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "myDatetime.h"
+#include <QStringList>
+#include <QVariant>
 
 
 int main(int argc, char *argv[])
@@ -14,9 +15,13 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    // 注册C++自定义对象
-    MyDatetime o;
-    engine.rootContext()->setContextProperty("ob", &o);
+    QStringList dataList;
+    dataList.append("Item 0");
+    dataList.append("Item 1");
+    dataList.append("Item 2");
+
+    engine.rootContext()->setContextProperty("myModel",
+                                 QVariant::fromValue(dataList));
 
     const QUrl url(u"qrc:/qt/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
