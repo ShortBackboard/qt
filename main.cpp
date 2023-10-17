@@ -1,5 +1,5 @@
 /*
- * 别名的简单使用
+ * 隐式定义的on加属性变化的信号和事件处理的信号
 */
 
 #include <QGuiApplication>

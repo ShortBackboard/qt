@@ -6,20 +6,45 @@ ApplicationWindow {
     height: 450
     visible: true
 
-    MyButton {
-        id: bt
-    }
+    onWidthChanged: console.log("width changed")
 
     Rectangle {
-        x:200
+        id:rect
+        width: 100
+        height: 100
+        TapHandler {
+            onTapped: (handlerPoint) => {
+                rect.color = Qt.rgba(Math.random(),
+                                     Math.random(),
+                                     Math.random())
 
-        width: 50
-        height: 50
-        color: "blue"
-
-        TapHandler{
-            onTapped: bt.buttonText = "Click Me"
+                //handlerPoint参数是一个 HandlerPoint 类型的对象,包含了更丰富的事件信息
+                console.log("click at ", handlerPoint.position.x,
+                            handlerPoint.position.y)
+            }
         }
     }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
