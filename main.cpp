@@ -1,7 +1,3 @@
-/*
- * 手工指定信号的定义和使用
-*/
-
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 

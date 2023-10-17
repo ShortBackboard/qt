@@ -1,37 +1,32 @@
+/*
+ * 使用 connections 类型手工连接信号
+*/
+
 import QtQuick
 import QtQuick.Controls
 
 ApplicationWindow {
+    id: window
     width: 600
     height: 450
     visible: true
 
-    GreyButton {
-        id:greyButton
-
-        // 信号的定义
-        onClickAt: (x, y) => {
-                    console.log("clicked at (" + x + "," + y + ")")
-                   }
-
-        onLongClick: console.log("long clicked")
+    Button {
+        id:button
+        anchors.centerIn: parent
+        text: "change color"
     }
 
-
-    // 在别的对象中调用GreyButton的信号
-    Rectangle {
-        anchors.left: greyButton.right
-        width: greyButton.width
-        height: greyButton.height
-        color: "blue"
-
-        TapHandler {
-            onTapped: (eventPoint) => {
-                          greyButton.clickAt(eventPoint.position.x,
-                                             eventPoint.position.y)
-                      }
+    Connections {
+        target: button
+        function onClicked() {
+            window.color = Qt.rgba(Math.random(),
+                                   Math.random(),
+                                   Math.random())
         }
+
     }
+
 
 }
 
