@@ -16,7 +16,6 @@ qt_standard_project_setup()
 
 qt_add_executable(basicdrawing
     main.cpp
-    renderarea.cpp renderarea.h
     window.cpp window.h
 )
 
@@ -33,11 +32,10 @@ target_link_libraries(basicdrawing PRIVATE
 
 # Resources:
 set(basicdrawing_resource_files
-    "images/brick.png"
-    "images/qt-logo.png"
+    "images/leetCode.png"
 )
 
-qt_add_resources(basicdrawing "basicdrawing"
+qt_add_resources(basicdrawing "drawtest"
     PREFIX
         "/"
     FILES

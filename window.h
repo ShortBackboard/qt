@@ -1,20 +1,14 @@
-// Copyright (C) 2016 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
-
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QBrush>
+#include <QPen>
+#include <QPixmap>
 #include <QWidget>
-
-QT_BEGIN_NAMESPACE
-class QCheckBox;
-class QComboBox;
-class QLabel;
-class QSpinBox;
-QT_END_NAMESPACE
-
-// 自定义的图片渲染结果显示区域
-class RenderArea;
+#include <QtWidgets>
+#include <QPainter>
+#include <QPainterPath>
+#include <QLabel>
 
 
 class Window : public QWidget
@@ -25,29 +19,16 @@ class Window : public QWidget
 public:
     Window();
 
-// 信号
-private slots:
-    void shapeChanged();
-    void penChanged();
-    void brushChanged();
+protected:
+    // 绘画
+    // void paintEvent(QPaintEvent *event) override;
 
 private:
-    RenderArea *renderArea;
-    QLabel *shapeLabel;
-    QLabel *penWidthLabel;
-    QLabel *penStyleLabel;
-    QLabel *penCapLabel;
-    QLabel *penJoinLabel;
-    QLabel *brushStyleLabel;
-    QLabel *otherOptionsLabel;
-    QComboBox *shapeComboBox;
-    QSpinBox *penWidthSpinBox;
-    QComboBox *penStyleComboBox;
-    QComboBox *penCapComboBox;
-    QComboBox *penJoinComboBox;
-    QComboBox *brushStyleComboBox;
-    QCheckBox *antialiasingCheckBox;
-    QCheckBox *transformationsCheckBox;
+    QLabel *m_label;
+    QPen *m_pen;
+    QBrush *m_brush;
+    QPixmap m_pixmap; // 加载图片，用于渲染和显示
 };
+
 
 #endif // WINDOW_H
