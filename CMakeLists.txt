@@ -1,130 +1,51 @@
-cmake_minimum_required(VERSION 3.26)
+# Copyright (C) 2022 The Qt Company Ltd.
+# SPDX-License-Identifier: BSD-3-Clause
 
-project(qt VERSION 0.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(basicdrawing LANGUAGES CXX)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+if(NOT DEFINED INSTALL_EXAMPLESDIR)
+    set(INSTALL_EXAMPLESDIR "examples")
+endif()
+
+set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}/widgets/painting/basicdrawing")
+
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 qt_standard_project_setup()
 
-qt_add_executable(appqt)
-
-target_sources(appqt
-    PRIVATE
-        main.cpp
-        
-    PUBLIC
-        
+qt_add_executable(basicdrawing
+    main.cpp
+    renderarea.cpp renderarea.h
+    window.cpp window.h
 )
 
-qt_add_qml_module(appqt
-    URI qt
-    VERSION 1.0
-    QML_FILES 
-        Main.qml
-)
-
-target_compile_features(appqt PRIVATE cxx_std_20)
-
-set_target_properties(appqt PROPERTIES
-    AUTORCC TRUE
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
+set_target_properties(basicdrawing PROPERTIES
     WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
 )
 
-target_link_libraries(appqt
-    PRIVATE 
-        Qt6::Quick
+target_link_libraries(basicdrawing PRIVATE
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
 )
 
-install(TARGETS appqt
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+# Resources:
+set(basicdrawing_resource_files
+    "images/brick.png"
+    "images/qt-logo.png"
 )
 
+qt_add_resources(basicdrawing "basicdrawing"
+    PREFIX
+        "/"
+    FILES
+        ${basicdrawing_resource_files}
+)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#qt_add_executable(qt)  //Creates and finalizes an application target of a platform-specific type.
-#This command performs the following tasks:
-#    1. Create a CMake target of the appropriate type for the target platform.
-#    2. Link the target to the Qt::Core library.
-#    3. Handle finalization of the CMake target.
-
-
-
-# qt_standard_project_setup()     #set(CMAKE_AUTOUIC ON)  set(CMAKE_AUTOMOC ON)
-
-# @if %{HasTranslation}
-# find_package(Qt6 REQUIRED COMPONENTS Core Quick LinguistTools)
-# @else
-# find_package(Qt6 REQUIRED COMPONENTS Core Quick)
-# @endif
-
-# target_sources(appqt
-#     PRIVATE
-#         main.cpp
-#         qml.qrc
-#     @if %{HasTranslation}
-#         %{TsFileName}
-#     @endif
-#         
-#     PUBLIC
-#         
-# )
-
-# qt_import_qml_plugins(qt)
+install(TARGETS basicdrawing
+    RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
+    BUNDLE DESTINATION "${INSTALL_EXAMPLEDIR}"
+    LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
+)
