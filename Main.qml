@@ -6,25 +6,32 @@ ApplicationWindow {
     height: 450
     visible: true
 
-    onWidthChanged: console.log("width changed")
+    GreyButton {
+        id:greyButton
 
-    Rectangle {
-        id:rect
-        width: 100
-        height: 100
-        TapHandler {
-            onTapped: (handlerPoint) => {
-                rect.color = Qt.rgba(Math.random(),
-                                     Math.random(),
-                                     Math.random())
+        // 信号的定义
+        onClickAt: (x, y) => {
+                    console.log("clicked at (" + x + "," + y + ")")
+                   }
 
-                //handlerPoint参数是一个 HandlerPoint 类型的对象,包含了更丰富的事件信息
-                console.log("click at ", handlerPoint.position.x,
-                            handlerPoint.position.y)
-            }
-        }
+        onLongClick: console.log("long clicked")
     }
 
+
+    // 在别的对象中调用GreyButton的信号
+    Rectangle {
+        anchors.left: greyButton.right
+        width: greyButton.width
+        height: greyButton.height
+        color: "blue"
+
+        TapHandler {
+            onTapped: (eventPoint) => {
+                          greyButton.clickAt(eventPoint.position.x,
+                                             eventPoint.position.y)
+                      }
+        }
+    }
 
 }
 
