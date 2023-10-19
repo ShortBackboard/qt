@@ -17,6 +17,17 @@
 
 #include <QFont> // 字体属性
 
+// 绘制图像类
+#include <QPainter>
+#include <QImage>
+#include <QPixmap>
+#include <QBitmap>
+#include <QPicture>
+
+#include <QTransform>
+
+#include <QDebug>
+
 
 Window::Window()
 {
@@ -28,35 +39,46 @@ Window::Window()
 // 绘画
 void Window::paintEvent(QPaintEvent *event)
 {
-    // 颜色填充规则
+    // 绘制图像
+
 
     /*
-     * 1.Qt::OddEvenFill使用的是奇偶填充规则
-     * 如果要判断一个点是否在图形中，那么就可以从该点出发向图形外引一条水平线
-     * 如果该水平线与图形的交点的个数为奇数，那么说明该点就在图形中
-     * Qt::OddEvenFill是路径填充规则的默认值
+     * Qt提供了4个类来处理图像数据：QImage，QPixmap，QBitmap和QPicture，都是常用的绘图设备。
      *
-     *
-     *
-     * 2.Qt::WindingFill使用的是非零弯曲规则
-     * 如果要判断一个点是否在图形中，那么可以从该点向图形外引一条水平线
-     * 如果该水平线与图形的边线相交，且这个边线是顺时针绘制的，就记为1
-     * 是逆时针的，就记为-1
-     * 将所有这些记录值相加，如果结果不为0，那么就说该点在图形中。
-     *
+     * QImage主要用来进行I/O处理，它对I/O处理操作进行了优化，而且也可以用来直接访问和操作像素。
+     * QPixmap主要用来在屏幕上显示图像，它对在屏幕上显示图像进行了优化。
+     * QBitmap是QPixmap的子类，用来处理颜色深度为1的图像，即只能显示黑白两种颜色。
+     * QPicture用来记录并重演QPainter命令。
     */
 
-    QPainter painter(this);
-    QPainterPath path;
-    path.addEllipse(10, 50, 100, 100);
-    path.addRect(50, 100,100, 100);
-    painter.setBrush(Qt::cyan);
-    painter.drawPath(path);
 
-    // 平移坐标系
-    painter.translate(180, 0);
-    path.setFillRule(Qt::WindingFill); // 使用非零弯曲填充规则，还有一个奇偶填充规则(默认值，Qt::OddEventFill)
-    painter.drawPath(path);
+
+
+    // 1.QImage，加载显示一个图片文件，并生成倒影图片文件并保存图片到指定路径
+    QPainter painter(this);
+    QImage image;
+    //480 * 270
+    image.load("../qt/images/leetCode.png");
+    //qDebug() << image.size() <<image.format() << image.depth();
+
+    painter.drawImage(QPoint(10, 10), image);
+
+    QImage mirror = image.mirrored(); // 图片的倒影文件
+    QTransform trans;
+    trans.shear(0.2 ,0);
+
+    QImage newImage = mirror.transformed(trans);
+    painter.drawImage(QPoint(10, 200), newImage);
+
+    // 保存新文件
+    newImage.save("../mirror.png");
+
+
+
+
+
+
+
 
 }
 
