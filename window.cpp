@@ -15,22 +15,12 @@
 
 #include <QTimer> // 定时器
 
-// 初始角度
-int angle = 0;
+#include <QFont> // 字体属性
+
 
 Window::Window()
 {
     setWindowTitle(tr("QPatiner 学习"));
-    QTimer* timer = new QTimer(this);
-
-    // 连接定时器和绘画的update()
-    // update()一次，就会执行一遍paintEvent()
-    connect(timer, SIGNAL(timeout()),
-            this, SLOT(update()));
-
-    // 1s定时器
-    timer->start(1000);
-
 }
 
 
@@ -38,32 +28,42 @@ Window::Window()
 // 绘画
 void Window::paintEvent(QPaintEvent *event)
 {
-    // 与定时器结合做一个动画
+    // 绘制文字
+    /*
+     * 除了绘制图形以外，还可以使用QPainter::drawText()函数来绘制文字
+     * 也可以使用QPainter::setFont来设置绘制文字所使用的字体
+     * 使用QPainter::fontInfo()函数可以获取字体信息，它返回QFontInfo类对象。
+     * 绘制文字时会默认使用抗锯齿
+    */
 
-    // 执行一次，角度加10
-    angle += 5;
-
-    if(angle == 360) angle = 0;
-
-    // 取较小值
-    int side = qMin(width(), height());
-
-    // 自动调用QPainter的begin()，在析构时调用end()函数
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    QRect rect(10.0, 10.0, 400, 400);
+    painter.drawRect(rect);
 
-    QTransform transform;
+    painter.setPen(Qt::red);
 
-    // 平移坐标系
-    transform.translate(width() / 2, height() / 2);
+    //  绘制文字所在的矩形盒子，文字在盒子中的对齐方式，要绘制的文字内容，第四个参数一般可省
+    // 文字的多个不同的对齐方式可以使用’|'符号连接它们以同时使用
+    painter.drawText(rect, Qt::AlignCenter, tr("中心"));
+    painter.drawText(rect, Qt::AlignHCenter, tr("垂直居中"));
+    painter.drawText(rect, Qt::AlignRight, tr("右上"));
 
-    // 根据部件的大小进行缩放，这样当窗口大小改变时绘制的内容也会跟着改变大小
-    // 缩放坐标系
-    transform.scale(side/300.0, side/300.0);
-    transform.rotate(angle);		// 由于angle在不断变化，所以每次旋转的角度都不同
-    painter.setWorldTransform(transform);
-    painter.drawEllipse(-120, -120, 240, 240);  // 画钟圆
-    painter.drawLine(0, 0, 110, 0);             // 画时针
+
+    // 字体族，字体大小(默认12)，字体weight，是否使用斜体
+    QFont font("宋体", 15, QFont::Bold, true);
+    font.setUnderline(true);	// 下划线
+    font.setOverline(true);		// 中划线
+    font.setCapitalization(QFont::SmallCaps);	// 字母大写
+    font.setLetterSpacing(QFont::AbsoluteSpacing, 10);      // 设置字符间间距
+    painter.setFont(font);
+    painter.setPen(Qt::green);
+    painter.drawText(120, 80, tr("drawText()的另一种重载形式"));
+
+    // 平移和旋转坐标系
+    painter.translate(100, 100);
+    painter.rotate(90);
+    painter.drawText(0, 0, tr("heloQt"));
+
 
 }
 
