@@ -28,33 +28,35 @@ Window::Window()
 // 绘画
 void Window::paintEvent(QPaintEvent *event)
 {
-    // 绘制路径(多个绘制元素的集合，可以复用)
+    // 颜色填充规则
 
     /*
-     * 如果要绘制一个复杂的图形，可以使用QPainterPath类，
-     * 并使用QPainter::drawPath()进行绘制。
-     * QPainterPath类为绘制操作提供了一个容器，可以用来创建图形并且重复使用。
+     * 1.Qt::OddEvenFill使用的是奇偶填充规则
+     * 如果要判断一个点是否在图形中，那么就可以从该点出发向图形外引一条水平线
+     * 如果该水平线与图形的交点的个数为奇数，那么说明该点就在图形中
+     * Qt::OddEvenFill是路径填充规则的默认值
      *
-     * 一个绘图路径就是由多个矩形，椭圆，线条或者曲线等组成的对象。
-     * 一个路径可以是封闭的，如果矩形和椭圆；也可以是非封闭的，如线条和曲线。
+     *
+     *
+     * 2.Qt::WindingFill使用的是非零弯曲规则
+     * 如果要判断一个点是否在图形中，那么可以从该点向图形外引一条水平线
+     * 如果该水平线与图形的边线相交，且这个边线是顺时针绘制的，就记为1
+     * 是逆时针的，就记为-1
+     * 将所有这些记录值相加，如果结果不为0，那么就说该点在图形中。
+     *
     */
 
     QPainter painter(this);
     QPainterPath path;
-    path.moveTo(50, 250);
-    path.lineTo(50, 230);       // 类似的函数还有arcTo(), cubicTo(), quadTo()
-    path.cubicTo(QPointF(105, 40), QPointF(115, 80), QPointF(120, 60)); // 绘制三次贝塞尔曲线(使用quadTo()绘制二次贝塞尔曲线)
-    path.lineTo(130, 130);
-    path.addEllipse(QPoint(130,130), 30, 30);       // 向路径中添加一个圆,与之类似的函数还有addPath(),addRect(),addRegion(),addText(),addPolygon()
-
-    painter.setPen(Qt::darkYellow);
-    painter.drawPath(path);		// 路径构建完成后使用drawPath()将路径绘制出来
-
-    // 平移坐标系统
-    path.translate(200,0);
-    painter.setPen(Qt::darkBlue);
+    path.addEllipse(10, 50, 100, 100);
+    path.addRect(50, 100,100, 100);
+    painter.setBrush(Qt::cyan);
     painter.drawPath(path);
 
+    // 平移坐标系
+    painter.translate(180, 0);
+    path.setFillRule(Qt::WindingFill); // 使用非零弯曲填充规则，还有一个奇偶填充规则(默认值，Qt::OddEventFill)
+    painter.drawPath(path);
 
 }
 
